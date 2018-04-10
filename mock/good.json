@@ -1,6 +1,11 @@
 {
 	"list":{
-		"aa":"dddddddd"
+		"title":"七彩蝶蛋糕店",
+		"favorite":"http://img.waimai.baidu.com/pb/7759c76a28da5f157485e20b59407d4d78",
+		"left_logo":"https://img.waimai.baidu.com/pb/1b7c12deafbef9f2c242e4a9c6ee93f3af",
+		"sendFee":0,
+		"packingFee":30,
+		"forwardTime":180
 	}
 	
 }
