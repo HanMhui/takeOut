@@ -10,12 +10,12 @@ module.exports = {
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     // Paths
-    host:'192.168.3.181',
+    host:'localhost',
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
         '/api/': {
-            target: 'http://192.168.3.181:3000',
+            target: 'http://localhost:3000',
             changeOrigin: true,
             pathRewrite: {
                 '^/api/': ''
