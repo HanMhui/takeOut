@@ -21,19 +21,37 @@
 				</div>		
 			</div>
 		</div>
-	    <component :is='component' id='content-component'></component>
 
+	    <!-- <component :is='component' id='content-component' @changenums="changenums"></component> -->
+	    <div class='cart-content'  v-show='cartList&&nums>0'>
+			<ul>
+				<li v-for="item in cartData" v-if='item.num>0'>
+					<div class="cl-r1">{{item.name}}</div>
+					<div class="cl-r3">￥{{item.price}}</div>
+					<div class="cl-r2">
+						<i @click='item.num=item.num-1;nums=nums-1'>-</i>
+				    		<span style="padding:0 5px;">{{item.num}}</span>
+				    	<i @click='item.num=item.num+1;nums=nums+1'>+</i>
+			    	</div>
+				</li>
+			</ul>
+	    </div>
+	    <div class='cart-dark' v-show='cartList&&nums>0' @click="cartList=false"></div>
+        <Goods @changenums="changenums"></Goods>
 
-
+        
+    
 		<div class='footer'>
-		   	<div class='shop'>
-		   		<div class='cart-count'>1</div>
+		   	<div class='shop' @click='watchCart'>
+		   		<div class='cart-count' v-show='nums>0'>{{nums}}</div>
 		   		<img src='../assets/shop.png'>
 		   	</div>
-		   	<span class='total-money'>共￥100元</span>
+		   	<span class='total-money'>共￥{{total}}元</span>
 		   	<span class='choose-ok' >选好了</span>
-
 		</div>
+
+		
+		<!-- <div class='mul-mark'></div> -->
 
 	</div>
 </template>
@@ -45,7 +63,21 @@ export default {
 	data () {
 		return {
 			headData:{},
-			component:"Goods"
+			// component:"Goods",
+			nums:0,
+			cartList:false,
+			cartData:[],
+			total:0
+
+		}
+	},
+	watch:{
+		cartData:function(e){
+			for (var i=0;i<e.length;i++){
+				this.total=+e[i].price*num
+
+			}
+			console.log(e)
 
 		}
 	},
@@ -56,17 +88,16 @@ export default {
 	    axios.get('/api/head').then((res)=>{
 	        this.headData=res.data
 		})
-		// let m=document.getElementById("head").clientHeight
-		// console.log(m)
-		// let n=document.getElementById("top-div").clientHeight
-		// console.log(n)
-		// document.getElementById('content-component').style.marginTop=m+n+'px'
 	},
 	methods:{
-		// aa(){
-		// 	let m=document.getElementById("head").offsetHeight
-		// 	console.log(m)
-		// }
+		changenums(obj){
+			this.nums=obj.numtotal
+			this.cartData=obj.cartData;
+
+		},
+		watchCart(){
+			this.cartList=!this.cartList
+		}
 	}
 }
 </script>
@@ -222,5 +253,78 @@ export default {
 	    right:0;
 	    cursor:pointer;
 	}
+	.cart-content{
+		max-height: 488px;
+    	overflow: hidden;
+    	position: fixed;
+    	bottom:50px;
+    	z-index: 8999;
+    	width:100%;
+    	
+	}
+	.cart-content ul{
+		margin:0;
+		padding:0;
+        background: #f8f8f8;
+		transition-property: transform;
+	    transform-origin: 0px 0px 0px;
+	    transform: translate(0px, 0px) translateZ(0px);
+
+	}
+	.cart-content ul li{
+		list-style: none;
+		height: 60px;
+	    line-height: 60px;
+	    border-bottom: 1px solid #e1e3e6;
+	    font-size: 14px;
+	    margin:0 15px;
+	    display: flex;
+	}
+	.cart-content ul li .cl-r1 {
+	    text-overflow: ellipsis;
+	    -o-text-overflow: ellipsis;
+	    white-space: nowrap;
+	    width: 135px;
+	    color: #404142;
+	    font-size: 14px;
+	    height: 50px;
+	    overflow: hidden;
+	    text-align: left;
+	}
+	.cart-content ul li .cl-r3{
+		width: 60px;
+	    color: #fe2947;
+	    font-size: 16px;
+	    font-weight: 700;
+	}
+	.cl-r2{
+		margin-left: 10px;
+	}
+	.cl-r2 i{
+		display: inline-block;
+	    border-radius: 30px;
+	    width:8px;
+	    border: 1px solid #dadee2;
+	    text-align: center;
+	    background: #fff;
+	    font-size: 15px;
+	    font-weight: 700;
+	    padding: 6px 10px;
+	    margin-bottom: 10px;
+	    font-style: normal;
+	    line-height: normal;
+	    color:red;
+	}
+	.cart-dark{
+		height: 150%;
+	    width: 100%;
+	    background-color: rgba(0,0,0,.6);
+	    position: absolute;
+	    z-index: 22;
+	    top: 0;
+	    left: 0;
+	    z-index: 8998;
+	}
+
 </style>
 
