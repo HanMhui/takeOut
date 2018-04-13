@@ -138,24 +138,13 @@ export default {
 		text-align: center;
 		display: flex;
 		padding:0;
-<<<<<<< HEAD
 		z-index: 2;
 	}
 	.common-nav-menu .center-title{
-		position:relative;
-		width:70%;
-		flex:8;
-		padding:0;
-		margin:0;
-=======
-
-	}
-	.common-nav-menu .center-title{
 		margin:0;
 		padding:0;
 		position:relative;
 		flex:8;
->>>>>>> ab5c461f4593325db3f62a2af87c1135bebace1a
 	}
 	.common-nav-menu a{
 		line-height: 2.5rem;
@@ -174,9 +163,6 @@ export default {
 		color:#fe2947;
 		border-bottom:2px solid #fe2947;
 	}
-<<<<<<< HEAD
-
-=======
 	.footer{
 		position: fixed;
 	    left: 0;
@@ -236,6 +222,5 @@ export default {
 	    right:0;
 	    cursor:pointer;
 	}
->>>>>>> ab5c461f4593325db3f62a2af87c1135bebace1a
 </style>
 
