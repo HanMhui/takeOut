@@ -13,7 +13,7 @@
 			</div>
 			<div class='common-nav-menu'>
 				<div class="center-title">
-					<a>商品</a>
+					<a class='active'>商品</a>
 					<a>评价</a>
 					<a>商家</a>
 				</div>		
@@ -110,22 +110,31 @@ export default {
 		text-align: center;
 		display: flex;
 		padding:0;
+		z-index: 2;
 	}
 	.common-nav-menu .center-title{
+		position:relative;
 		width:70%;
-		margin-left: 15%;
+		flex:8;
+		padding:0;
+		margin:0;
 	}
 	.common-nav-menu a{
-		/*line-height: 2.5rem;*/
+		line-height: 2.5rem;
 		color:#4d4d4d;
 		font-size: 18px;
 		display: inline-block;
 		height:2.5rem;
-		
 		width:25%;
 		margin:0 1%;
+		margin-top: -1px;
 		text-align: center;
 		border-bottom: 2px solid transparent;
 	}
+	.common-nav-menu .active{
+		color:#fe2947;
+		border-bottom:2px solid #fe2947;
+	}
+
 </style>
 
