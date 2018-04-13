@@ -1,8 +1,10 @@
 <template>
 	<div class="pager">
-		<div class='head'>
-			<div class='center-title'>{{headData.title}}</div>
-			<img :src="headData.favorite" class="favorite">
+		<div class='head' id='head'>
+			<div class='top-div' id='top-div'>
+				<div class='center-title'>{{headData.title}}</div>
+				<img :src="headData.favorite" class="favorite">
+			</div>
 			<div class='bottom-div'>
 				<div class="left-logo">
 					<img :src="headData.left_logo">
@@ -18,24 +20,53 @@
 					<a>商家</a>
 				</div>		
 			</div>
-		
+		</div>
+	    <component :is='component' id='content-component'></component>
+
+
+
+		<div class='footer'>
+		   	<div class='shop'>
+		   		<div class='cart-count'>1</div>
+		   		<img src='../assets/shop.png'>
+		   	</div>
+		   	<span class='total-money'>共￥100元</span>
+		   	<span class='choose-ok' >选好了</span>
+
 		</div>
 
 	</div>
 </template>
 
 <script>
+import Goods from '../components/Goods'
 import axios from 'axios'
 export default {
 	data () {
 		return {
-		  headData:{}
+			headData:{},
+			component:"Goods"
+
 		}
 	},
+	components:{
+		"Goods":Goods
+    },
 	mounted(){
-	    axios.get('/api/list').then((res)=>{
+	    axios.get('/api/head').then((res)=>{
 	        this.headData=res.data
 		})
+		// let m=document.getElementById("head").clientHeight
+		// console.log(m)
+		// let n=document.getElementById("top-div").clientHeight
+		// console.log(n)
+		// document.getElementById('content-component').style.marginTop=m+n+'px'
+	},
+	methods:{
+		// aa(){
+		// 	let m=document.getElementById("head").offsetHeight
+		// 	console.log(m)
+		// }
 	}
 }
 </script>
@@ -55,6 +86,7 @@ export default {
 		top:0;
 		width:100%;
 		font-size: 100%;
+		z-index: 3;
 	}
 	.center-title{
 		text-align: center;
@@ -63,8 +95,7 @@ export default {
 		color:#ffffff;
 		width:70%;
 		margin-left: 15%;
-		display: inline-block;
-		
+		display: inline-block;	
 	}
 	.head .favorite{
 		display: inline-block;
@@ -73,9 +104,6 @@ export default {
 		margin-top: .5rem;
 		position: absolute;
 		right:.384rem;
-
-
-
 	}
     .bottom-div{
     	display: flex;
@@ -110,6 +138,7 @@ export default {
 		text-align: center;
 		display: flex;
 		padding:0;
+<<<<<<< HEAD
 		z-index: 2;
 	}
 	.common-nav-menu .center-title{
@@ -118,6 +147,15 @@ export default {
 		flex:8;
 		padding:0;
 		margin:0;
+=======
+
+	}
+	.common-nav-menu .center-title{
+		margin:0;
+		padding:0;
+		position:relative;
+		flex:8;
+>>>>>>> ab5c461f4593325db3f62a2af87c1135bebace1a
 	}
 	.common-nav-menu a{
 		line-height: 2.5rem;
@@ -129,12 +167,75 @@ export default {
 		margin:0 1%;
 		margin-top: -1px;
 		text-align: center;
+		margin-top:-1px;
 		border-bottom: 2px solid transparent;
 	}
 	.common-nav-menu .active{
 		color:#fe2947;
 		border-bottom:2px solid #fe2947;
 	}
+<<<<<<< HEAD
 
+=======
+	.footer{
+		position: fixed;
+	    left: 0;
+	    bottom: 0;
+	    width: 100%;
+	    height: 50px;
+	    background-color: #484d54;
+	    color: #fff;
+	    z-index: 9000;
+	    display: -webkit-box;
+	    display: flex;
+	}
+	.footer .shop{
+		position: absolute;
+	    top: -8px;
+	    left: 6px;
+	    width: 50px;
+	    height: 50px;
+	    border-radius: 50%;
+	    background: #3f4349;
+	}
+	.footer .shop img{
+		position: absolute;
+		top:11px;
+		left:9px;
+	}
+	.footer .shop .cart-count{
+		position: absolute;
+	    font-style: normal;
+	    width: 20px;
+	    height: 20px;
+	    top: -5px;
+	    right: -5px;
+	    background: #fe2947;
+	    border-radius: 20px;
+	    font-size: 12px;
+	    text-align: center;
+	    line-height: 20px;
+	    z-index: 2;
+	}
+	.footer .total-money{
+		line-height: 50px;
+		font-size: 16px;
+		margin-left: 73px;
+
+	}
+	.footer .choose-ok{
+		position: absolute;
+		display: block;
+	    width: 120px;
+	    height: 50px;
+	    line-height: 50px;
+	    text-align: center;
+	    background-color: #fe2947;
+	    color: #fff;
+	    font-size: 16px;
+	    right:0;
+	    cursor:pointer;
+	}
+>>>>>>> ab5c461f4593325db3f62a2af87c1135bebace1a
 </style>
 
