@@ -25,13 +25,13 @@
 	    <!-- <component :is='component' id='content-component' @changenums="changenums"></component> -->
 	    <div class='cart-content'  v-show='cartList&&nums>0'>
 			<ul>
-				<li v-for="item in cartData" v-if='item.num>0'>
+				<li v-for="(item,index) in cartData" v-if='item.num>0'>
 					<div class="cl-r1">{{item.name}}</div>
 					<div class="cl-r3">￥{{item.price}}</div>
 					<div class="cl-r2">
-						<i @click='item.num=item.num-1;nums=nums-1'>-</i>
+						<i @click='plus(item,index)'>-</i>
 				    		<span style="padding:0 5px;">{{item.num}}</span>
-				    	<i @click='item.num=item.num+1;nums=nums+1'>+</i>
+				    	<i @click='item.num=item.num+1;nums=nums+1;'>+</i>
 			    	</div>
 				</li>
 			</ul>
@@ -47,7 +47,7 @@
 		   		<img src='../assets/shop.png'>
 		   	</div>
 		   	<span class='total-money'>共￥{{total}}元</span>
-		   	<span class='choose-ok' >选好了</span>
+		   	<span class='choose-ok' @click='Payment'>选好了</span>
 		</div>
 
 		
@@ -73,12 +73,11 @@ export default {
 	},
 	watch:{
 		cartData:function(e){
+			let m=0
 			for (var i=0;i<e.length;i++){
-				this.total=+e[i].price*num
-
+				m=m+e[i].price*e[i].num
 			}
-			console.log(e)
-
+			this.total=m
 		}
 	},
 	components:{
@@ -90,6 +89,11 @@ export default {
 		})
 	},
 	methods:{
+		plus(item,index){
+			item.num=item.num-1;
+			this.nums=this.nums-1;
+			this.cartData=this.cartData.splice(index,1)
+		},
 		changenums(obj){
 			this.nums=obj.numtotal
 			this.cartData=obj.cartData;
@@ -97,6 +101,12 @@ export default {
 		},
 		watchCart(){
 			this.cartList=!this.cartList
+		},
+		Payment(){
+			if(this.total>0)
+				alert("请支付"+this.total+"元")
+			else
+				alert("请选择商品")
 		}
 	}
 }
