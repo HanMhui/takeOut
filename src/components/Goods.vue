@@ -7,11 +7,12 @@
 				</li>
 			</ul>
 		</div>
-		<div class="list" id='list'>
+		<div class="list" >
+			<div id='list'></div>
 			<ul v-for="(items,index) in list" :id="'menu'+index" :name="'menu'+index">
 				<li v-for='item in items.children'>
 					<div class='warp'>
-					    <div class='img'><img :src='item.img'></div>
+					    <div class='img'><img :src='item.img' :onerror="goodImg"></div>
 						<div class='list-content'>
 							<h4 class='title'>{{item.name}}</h4>
 							<div class="description">已售出{{item.sold}}份</div>
@@ -24,17 +25,19 @@
 		</div>
 		<div class="model-bottom" v-show='bottomShow'>
 		    <div class='multi-content'>
-		    	<div class="close"></div>
+		    	<div class="close" @click='bottomShow=false'></div>
 		    	<div class="multi-title">{{modelData.name}}</div>
 		    	<div>
 		    		<span style="float:left;padding-top:5px">规格:</span>
 		    		<div class="size">
-		    			<span v-for='(item,index) in modelData.size' :class='{"colorRed":index==sizeIndex}' @click='changeSize(index)'>{{item}}</span>
+		    			<span v-for='(item,index) in modelData.sizes' :class='{"colorRed":index==sizeIndex}' @click='changeSize(index)'>{{item.size}}</span>
 		    		</div>
 		    	</div>
 		    	<div class="multi-name">
 		    		<span>价格:</span>
-		    		<span style="color:red;">￥{{modelData.price}}</span>
+		    		<span style="color:red;" v-for='(item,index) in modelData.sizes' v-if='index==sizeIndex' >
+		    			￥{{item.price}}
+		    		</span>
 		    	</div>
 		    	<div class="multi-name">
 		    		<span>数量:</span>
@@ -65,18 +68,23 @@ export default {
 			sizeIndex:0,
 			size:"",
 			numtotal:0,
+			price:0,
+			goodImg:'this.src="' + require('../assets/good.jpg') + '"'  
 		}
 	},
 	mounted(){
 		let m=document.getElementById("head").clientHeight
 		let n=document.getElementById("top-div").clientHeight
         document.getElementById("left-menu").style.top=m+n+'px'
-        document.getElementById("list").style.marginTop=m+n+'px'
+        document.getElementById("list").style.height=m+n+'px'
         axios.get('/api/list').then((res)=>{
 	        this.list=res.data
 		})
 	},
 	methods:{
+		errorImg(img){
+			img.src="../assets/good.jpg"
+		},
 		clickMenu(index){
 			this.flg=index;
 		},
@@ -97,12 +105,11 @@ export default {
 		},
 		addCart(){
 			let temp={
-				"name":this.modelData.name,
-				"price":this.modelData.price,
+				"name":this.modelData.name + '('+(this.size ? this.size : this.modelData.sizes[0].size)+')',
+				"price":this.price?this.price:this.modelData.sizes[0].price,
 				"num":this.num,
-				"size":this.size?this.size:this.modelData.size[0]
+				"size":this.size?this.size:this.modelData.sizes[0].size
 			}
-			this.numtotal=this.numtotal+this.num
 			let flg=0
 			for (var i=0;i<this.cartData.length;i++){
 				if(this.cartData[i].name==temp.name){
@@ -113,7 +120,6 @@ export default {
 			if (flg==0)
 				this.cartData.push(temp)
 			let temp1={
-				'numtotal':this.numtotal,
 				'cartData':this.cartData
 			}
 			this.$emit('changenums',temp1);
@@ -121,7 +127,8 @@ export default {
 		},
 		changeSize(index){
 			this.sizeIndex=index;
-			this.size=this.modelData.size[index]
+			this.size=this.modelData.sizes[index].size
+			this.price=this.modelData.sizes[index].price
 		}
 	}
 }
@@ -183,6 +190,11 @@ export default {
 		width:50px;
 		height:50px;
 	}
+/*	.goods .list .warp img:after{
+		width:50px;
+		height:50px;
+		content:url('http://static.waimai.baidu.com/static/mwaimai/images/shoplist-default-square_9eb1b3a.jpg');
+	}*/
 	.goods .list-content{
 		flex:1;
 		margin-left: 10px;

@@ -15,9 +15,7 @@
 			</div>
 			<div class='common-nav-menu'>
 				<div class="center-title">
-					<a class='active'>商品</a>
-					<a>评价</a>
-					<a>商家</a>
+					<a v-for='(item,index) in titles' :class='{"active":index==titleIndex}' @click='titleIndex=index'>{{item}}</a>
 				</div>		
 			</div>
 		</div>
@@ -31,17 +29,19 @@
 					<div class="cl-r2">
 						<i @click='plus(item,index)'>-</i>
 				    		<span style="padding:0 5px;">{{item.num}}</span>
-				    	<i @click='item.num=item.num+1;nums=nums+1;'>+</i>
+				    	<i @click='item.num=item.num+1;nums=nums+1;changeTotal(cartData)'>+</i>
 			    	</div>
 				</li>
 			</ul>
 	    </div>
 	    <div class='cart-dark' v-show='cartList&&nums>0' @click="cartList=false"></div>
-        <Goods @changenums="changenums"></Goods>
+        <Goods @changenums="changenums" v-show='titleIndex==0'></Goods>
+        <appraise v-show='titleIndex==1'></appraise>
+        <merchant v-show='titleIndex==2'></merchant>
 
         
     
-		<div class='footer'>
+		<div class='footer' v-if='titleIndex==0'>
 		   	<div class='shop' @click='watchCart'>
 		   		<div class='cart-count' v-show='nums>0'>{{nums}}</div>
 		   		<img src='../assets/shop.png'>
@@ -58,10 +58,14 @@
 
 <script>
 import Goods from '../components/Goods'
+import appraise from '../components/appraise'
+import merchant from '../components/merchant'
 import axios from 'axios'
 export default {
 	data () {
 		return {
+			titles:['商品','评价','商家'],
+			titleIndex:0,
 			headData:{},
 			// component:"Goods",
 			nums:0,
@@ -72,18 +76,25 @@ export default {
 		}
 	},
 	watch:{
-		cartData:function(e){
-			let m=0
-			for (var i=0;i<e.length;i++){
-				m=m+e[i].price*e[i].num
-			}
-			this.total=m
-		}
+		// cartData:function(e){
+			// let m=0
+			// for (var i=0;i<e.length;i++){
+			// 	m=m+e[i].price*e[i].num
+			// }
+			// this.total=m
+		// }
 	},
 	components:{
-		"Goods":Goods
+		"Goods":Goods,
+		"merchant":merchant,
+		"appraise":appraise
     },
 	mounted(){
+		window.onresize = function temp() {
+	        let aa= document.documentElement.clientWidth;
+	        document.documentElement.style.fontSize=aa/16+'px';
+	        
+	    };
 	    axios.get('/api/head').then((res)=>{
 	        this.headData=res.data
 		})
@@ -92,12 +103,26 @@ export default {
 		plus(item,index){
 			item.num=item.num-1;
 			this.nums=this.nums-1;
-			this.cartData=this.cartData.splice(index,1)
+			if (item.num==0)
+				this.cartData.splice(index,1)
+			this.changeTotal(this.cartData)
 		},
 		changenums(obj){
-			this.nums=obj.numtotal
+			// this.nums=obj.numtotal
+			let n=0
 			this.cartData=obj.cartData;
-
+			for(var i=0;i<this.cartData.length;i++){
+				n=n+this.cartData[i].num
+			}
+			this.nums=n
+			this.changeTotal(obj.cartData)
+		},
+		changeTotal(e){
+			let m=0
+			for (var i=0;i<e.length;i++){
+				m=m+e[i].price*e[i].num
+			}
+			this.total=m
 		},
 		watchCart(){
 			this.cartList=!this.cartList
