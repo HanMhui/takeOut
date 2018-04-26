@@ -14,7 +14,6 @@
 						<img src="../assets/location.png" class='location'>
 					</span>
 					<p>哈尔滨市道里区安德街34-2号3单元1层7号</p>
-
 				</div>
 				<div>
 					<span>
@@ -47,7 +46,7 @@
 			</div>	
 		</div>
 		<div class="shopdetail">
-			<div>App专享优惠</span>
+			<div><span>App专享优惠</span>
 			</div>
 			<div>
 				<img src="../assets/jian_b.png">

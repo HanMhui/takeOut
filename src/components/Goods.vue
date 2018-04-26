@@ -9,8 +9,8 @@
 		</div>
 		<div class="list" >
 			<div id='list'></div>
-			<ul v-for="(items,index) in list" :id="'menu'+index" :name="'menu'+index">
-				<li v-for='item in items.children'>
+			<ul v-for="(items,index) in list" :key='index' :id="'menu'+index" :name="'menu'+index">
+				<li v-for='(item,index) in items.children' :key='index'>
 					<div class='warp'>
 					    <div class='img'><img :src='item.img' :onerror="goodImg"></div>
 						<div class='list-content'>
@@ -30,12 +30,12 @@
 		    	<div>
 		    		<span style="float:left;padding-top:5px">规格:</span>
 		    		<div class="size">
-		    			<span v-for='(item,index) in modelData.sizes' :class='{"colorRed":index==sizeIndex}' @click='changeSize(index)'>{{item.size}}</span>
+		    			<span v-for='(item,index) in modelData.sizes' :key='index' :class='{"colorRed":index==sizeIndex}' @click='changeSize(index)'>{{item.size}}</span>
 		    		</div>
 		    	</div>
 		    	<div class="multi-name">
 		    		<span>价格:</span>
-		    		<span style="color:red;" v-for='(item,index) in modelData.sizes' v-if='index==sizeIndex' >
+		    		<span style="color:red;" v-for='(item,index) in modelData.sizes' :key='index' v-if='index==sizeIndex' >
 		    			￥{{item.price}}
 		    		</span>
 		    	</div>

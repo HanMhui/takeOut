@@ -32,7 +32,7 @@
 				</div>
 				<div class='list-content'>
 					<ul>
-						<li v-for="item in appraiseList.list">
+						<li v-for="(item,index) in appraiseList.list" :key='index'>
 							<img src="../assets/c1394035.jpeg" class='content-img'>
 							<div class="comment-list-title">
 								<span class="left">{{item.name}}</span>
