@@ -88,7 +88,7 @@
 				        let m=res.data.list
 				        let temp=[]
 				        for(var i in m){
-				        	if(!m[i].content){
+				        	if(m[i].content){
 				        		temp.push(m[i])
 				        	}
 				        }
@@ -256,7 +256,7 @@
 	    display: inline-block;
 	    height: 16px;
 	    width: 16px;
-	    float: left;
+	    /* float: left; */
 	}
 	.comment-zan span {
 	    margin-right: 5px;
