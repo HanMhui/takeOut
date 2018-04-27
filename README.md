@@ -1,4 +1,4 @@
-## 基于vue2+vue-router+webpack+仿百度外卖项目
+## 基于vue2+vue-router+webpack仿百度外卖项目
 
 
 
